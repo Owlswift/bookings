@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookings Notifications Test</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Bookings Notifications Test</h1>
+    <div id="output"></div>
+
+    <script>
+        const output = document.getElementById('output');
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbWlub21pY3NAZ21haWwuY29tIiwic3ViIjoxLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3NTU2OTk1NTQsImV4cCI6MTc1NTcwMzE1NH0.MfKvGqHzKJRadLGgVu9E6mhH9y_9fF1CEY0UMFyrGg8"
+
+        const socket = io("ws://localhost:3000/bookings", {
+            transports: ["websocket"],
+            query: { token }
+        });
+
+        socket.on("connect", () => {
+            log("✅ Connected to WebSocket (Socket.IO)");
+        });
+
+        socket.on("connect_error", (err) => {
+            log(`❌ Connection Error: ${err.message}`);
+        });
+
+        socket.on("disconnect", () => {
+            log("⚠️ Disconnected from WebSocket");
+        });
+
+        // Listen for booking.created events
+        socket.on("booking.created", (data) => {
+            log(`📢 Booking created: ${JSON.stringify(data)}`);
+        });
+
+        function log(message) {
+            output.innerHTML += `<p>${new Date().toLocaleTimeString()}: ${message}</p>`;
+        }
+    </script>
+</body>
+</html>
