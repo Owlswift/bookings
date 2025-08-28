@@ -77,7 +77,7 @@ Open `test.html` in a browser — it will attempt to connect to `ws://localhost:
 
 ---
 
-## What I’d Improve with +4 Hours
+## What I’d Improve
 
 ### ✅ Validation & Correctness
 
